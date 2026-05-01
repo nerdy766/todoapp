@@ -17,10 +17,11 @@ public class TaskController {
   public TaskController(TaskService taskService) {
     this.taskService = taskService;
   }
-  @PostMapping
-  public Task creatTask(@RequestBody Task task){
-    return taskService.createTask(task);
+  @PostMapping("/{listId}")
+  public Task createTask(@RequestBody Task task, @PathVariable Long listId){
+    return taskService.createTask(task,listId);
   }
+
   @GetMapping
   public List<Task> getAllTask(){
     return taskService.getAllTasks();
@@ -29,6 +30,7 @@ public class TaskController {
     public Task getTaskById(@PathVariable Long id){
       return taskService.getTaskById(id);
     }
+
   @PutMapping("/{id}")
     public Task updateTask(@RequestBody Task task, @PathVariable Long id){
       return taskService.updateTask(task,id);
@@ -38,4 +40,9 @@ public class TaskController {
      taskService.deleteTask(id);
      return "Deleted Successfully";
   }
+  @GetMapping("/list/{list_id}")
+    public List<Task>  getTaskByListId(@PathVariable Long listId){
+      return taskService.getTaskByListId(listId);
+  }
+
 }

@@ -1,12 +1,21 @@
 package com.tasks.todoapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
 
 @Table(name="task")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Task {
   @Id
 @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,36 +24,8 @@ public class Task {
   private String task;
   private LocalDate deadline;
   private boolean completed;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getTask() {
-    return task;
-  }
-
-  public void setTask(String task) {
-    this.task = task;
-  }
-
-  public LocalDate getDeadline() {
-    return deadline;
-  }
-
-  public void setDeadline(LocalDate deadline) {
-    this.deadline = deadline;
-  }
-
-  public boolean isCompleted() {
-    return completed;
-  }
-
-  public void setCompleted(boolean completed) {
-    this.completed = completed;
-  }
+  @ManyToOne
+  @JoinColumn(name="list_id")
+  @JsonIgnore
+  private TaskList taskList;
 }

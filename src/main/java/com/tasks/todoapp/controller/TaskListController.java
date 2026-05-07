@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/list")
+@RequestMapping("/lists")
 public class TaskListController {
   private final TaskListService taskListService;
 
@@ -20,9 +20,13 @@ public class TaskListController {
   public List<TaskList> getAllList(){
     return taskListService.getAllList();
   }
-  @PostMapping
-  public TaskList creatList(@RequestBody TaskList taskList){
-    return taskListService.creatList(taskList);
+  @GetMapping("/{listId}")
+  public TaskList getListById(@PathVariable Long listId){
+    return taskListService.getListById(listId);
+  }
+  @PostMapping("{/userId}")
+  public TaskList creatList(@RequestBody TaskList taskList, @PathVariable Long userId){
+    return taskListService.creatList(taskList, userId);
   }
   @DeleteMapping("/{listId}")
   public void deleteList(@PathVariable Long listId){

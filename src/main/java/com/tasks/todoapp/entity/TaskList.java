@@ -25,4 +25,7 @@ public class TaskList {
   private LocalDate createdAt;
   @OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL)
   private List<Task> taskList;
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User user;
 }

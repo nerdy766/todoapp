@@ -10,37 +10,37 @@ import java.util.List;
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping
 public class TaskController {
   private final TaskService taskService;
 
   public TaskController(TaskService taskService) {
     this.taskService = taskService;
   }
-  @PostMapping("/{listId}")
+  @PostMapping("/lists/{listId}/tasks")
   public Task createTask(@RequestBody Task task, @PathVariable Long listId){
     return taskService.createTask(task,listId);
   }
 
-  @GetMapping
-  public List<Task> getAllTask(){
-    return taskService.getAllTasks();
-  }
-  @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable Long id){
-      return taskService.getTaskById(id);
-    }
+//  @GetMapping
+//  public List<Task> getAllTask(){
+//    return taskService.getAllTasks();
+//  }
+//  @GetMapping("/{id}/tasks")
+//    public Task getTaskById(@PathVariable Long id){
+//      return taskService.getTaskById(id);
+//    }
 
-  @PutMapping("/{id}")
+  @PutMapping("/tasks/{id}")
     public Task updateTask(@RequestBody Task task, @PathVariable Long id){
       return taskService.updateTask(task,id);
     }
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/tasks/{id}")
   public String deleteTask(@PathVariable Long id){
      taskService.deleteTask(id);
      return "Deleted Successfully";
   }
-  @GetMapping("/list/{list_id}")
+  @GetMapping("/lists/{listId}/tasks")
     public List<Task>  getTaskByListId(@PathVariable Long listId){
       return taskService.getTaskByListId(listId);
   }

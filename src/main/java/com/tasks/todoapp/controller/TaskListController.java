@@ -24,7 +24,7 @@ public class TaskListController {
   public TaskList getListById(@PathVariable Long listId){
     return taskListService.getListById(listId);
   }
-  @PostMapping("{/userId}")
+  @PostMapping("/{userId}")
   public TaskList creatList(@RequestBody TaskList taskList, @PathVariable Long userId){
     return taskListService.creatList(taskList, userId);
   }

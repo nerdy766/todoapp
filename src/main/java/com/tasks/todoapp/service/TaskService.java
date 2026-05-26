@@ -21,7 +21,7 @@ public class TaskService {
   }
   public Task createTask(Task task, Long listId){
     TaskList list = taskListRepository.findById(listId)
-            .orElseThrow(()-> new RuntimeException("List not found ! "));
+            .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task list not found with id: " + listId));
     task.setTaskList(list);
     return taskRepository.save(task);
   }
@@ -33,7 +33,8 @@ public class TaskService {
             .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found with id:" + id));
   }
   public void deleteTask(Long id) {
-    taskRepository.deleteById(id);
+    Task task = getTaskById(id);
+    taskRepository.delete(task);
   }
   public Task updateTask(Task updatedTask, Long id){
     Task existing_task = taskRepository.findById(id)
@@ -45,7 +46,7 @@ public class TaskService {
   }
   public List<Task>  getTaskByListId( Long listId){
     if(!taskListRepository.existsById(listId)){
-      throw new RuntimeException("List Not found");
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task list not found with id: " + listId);
     }
     return taskRepository.findByTaskListId(listId);
   }

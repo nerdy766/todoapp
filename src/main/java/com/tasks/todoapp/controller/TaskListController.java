@@ -2,7 +2,6 @@ package com.tasks.todoapp.controller;
 
 import com.tasks.todoapp.entity.TaskList;
 import com.tasks.todoapp.service.TaskListService;
-import com.tasks.todoapp.service.TaskService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +24,12 @@ public class TaskListController {
     return taskListService.getListById(listId);
   }
   @PostMapping("/{userId}")
-  public TaskList creatList(@RequestBody TaskList taskList, @PathVariable Long userId){
-    return taskListService.creatList(taskList, userId);
+  public TaskList createList(@RequestBody TaskList taskList, @PathVariable Long userId){
+    return taskListService.createList(taskList, userId);
+  }
+  @PutMapping("/{listId}")
+  public TaskList updateList(@RequestBody TaskList taskList, @PathVariable Long listId){
+    return taskListService.updateList(taskList, listId);
   }
   @DeleteMapping("/{listId}")
   public void deleteList(@PathVariable Long listId){

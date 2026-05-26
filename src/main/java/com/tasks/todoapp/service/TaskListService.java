@@ -1,10 +1,11 @@
 package com.tasks.todoapp.service;
 
-import com.tasks.todoapp.entity.Task;
 import com.tasks.todoapp.entity.TaskList;
 import com.tasks.todoapp.entity.User;
 import com.tasks.todoapp.repository.TaskListRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class TaskListService {
     this.userService = userService;
   }
 
-  public TaskList creatList(TaskList taskList, Long userId){
+  public TaskList createList(TaskList taskList, Long userId){
     User user = userService.getUserById(userId);
     taskList.setUser(user);
     return taskListRepository.save(taskList);
@@ -29,11 +30,16 @@ public class TaskListService {
   }
   public TaskList getListById(Long listId){
     return taskListRepository.findById(listId)
-            .orElseThrow(()-> new RuntimeException("Task List not Found"));
+            .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task list not found with id: " + listId));
+  }
+  public TaskList updateList(TaskList updatedList, Long listId){
+    TaskList existingList = getListById(listId);
+    existingList.setName(updatedList.getName());
+    existingList.setCreatedAt(updatedList.getCreatedAt());
+    return taskListRepository.save(existingList);
   }
   public void deleteList(Long listId){
-    TaskList list = taskListRepository.findById(listId)
-            .orElseThrow(()-> new RuntimeException("List doesn't exist"));
+    getListById(listId);
     taskListRepository.deleteById(listId);
 
   }
